@@ -74,8 +74,32 @@ const readById = async (req, res) =>{
   }
 };
 
+const update = async (req, res) => {
+  try {
+    const document = db.collection("user-data").doc(req.params.id);
+    await document.update({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      hight: req.body.hight,
+      gender: req.body.gender,
+      age: req.body.age,
+    });
+    return res.status(200).send({
+      status: "success",
+      data: {
+        userId: req.params.id,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send(err);
+  }
+};
+
 module.exports = {
   store,
   readAll,
   readById,
+  update,
 };
