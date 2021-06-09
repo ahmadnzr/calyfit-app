@@ -97,9 +97,26 @@ const update = async (req, res) => {
   }
 };
 
+const destroy = async (req, res) => {
+  try {
+    const document = db.collection("user-data").doc(req.params.id);
+    await document.delete();
+    return res.status(200).send({
+      status: "success",
+      data: {
+        userId: req.params.id,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send(err);
+  }
+};
+
 module.exports = {
   store,
   readAll,
   readById,
   update,
+  destroy,
 };
