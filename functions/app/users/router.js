@@ -4,5 +4,6 @@ const userController = require("./controller");
 
 router.post("/users", userController.store);
 router.get("/users", userController.readAll);
+router.get("/users/:id", userController.readById);
 
 module.exports = router;

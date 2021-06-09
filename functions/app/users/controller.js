@@ -58,7 +58,24 @@ const readAll = async (req, res) =>{
   }
 };
 
+const readById = async (req, res) =>{
+  try {
+    const document = db.collection("user-data").doc(req.params.id);
+    const user = await document.get();
+    const response = user.data();
+
+    return res.status(200).send({
+      status: "success",
+      userInfo: response,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send(err);
+  }
+};
+
 module.exports = {
   store,
   readAll,
+  readById,
 };
