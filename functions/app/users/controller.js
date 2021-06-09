@@ -27,6 +27,38 @@ const store = async (req, res) => {
   }
 };
 
+const readAll = async (req, res) =>{
+  try {
+    const query = db.collection("user-data");
+    const response = [];
+
+    await query.get().then((querSnapshot) =>{
+      const docs = querSnapshot.docs;
+
+      docs.map((doc) =>{
+        const items = {
+          id: doc.id,
+          name: doc.data().name,
+          email: doc.data().email,
+          password: doc.data().password,
+          hight: doc.data().hight,
+          weight: doc.data().weight,
+          gender: doc.data().gender,
+          age: doc.data().age,
+        };
+        response.push(items);
+      });
+      return res.status(200).send({
+        status: "success",
+        users: response,
+      });
+    });
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+};
+
 module.exports = {
   store,
+  readAll,
 };
